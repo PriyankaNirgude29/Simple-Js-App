@@ -1,3 +1,5 @@
+// Immidietely Invoked Function Expression (IIFE)
+let PokemonRepository = (function(){
 let PokemonList = [
 {
   name:'Bulbasaur',
@@ -24,13 +26,28 @@ let PokemonList = [
 }
 ];
 
-for(let i=0; i < PokemonList.length; i++)
-{
-  if(PokemonList[i].height > 5){
-    document.write(PokemonList[i].name + " ("+"Height :"+PokemonList[i].height+")"+" - Wow, That's Big!<br\>");
+// Public Function to Add an item to Array
+function add(pokemon){
+  PokemonList.push(pokemon);
+}
+// Public Function to get items of Array
+function getAll(){
+  return PokemonList;
+}
+
+return{
+  add : add,
+  getAll : getAll
+};
+
+})();
+
+// foreach function
+PokemonRepository.getAll().forEach(function(pokemon) {
+  if(pokemon.height > 5){
+    document.write(pokemon.name + " ("+"Height :"+pokemon.height+")"+" - Wow, That's Big!<br\>");
 
   }else{
-    document.write(PokemonList[i].name + " ("+"Height :"+PokemonList[i].height+")<br\>");
+    document.write(pokemon.name + " ("+"Height :"+pokemon.height+")<br\>");
   }
-
-}
+});
