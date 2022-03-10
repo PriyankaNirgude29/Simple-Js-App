@@ -30,6 +30,7 @@ let PokemonList = [
 function add(pokemon){
   PokemonList.push(pokemon);
 }
+
 // Public Function to get items of Array
 function getAll(){
   return PokemonList;
@@ -41,6 +42,9 @@ return{
 };
 
 })();
+
+// adding an item to PokemonRepository
+PokemonRepository.add({ name: 'Charizard', height: 8, type: ['Flying']});
 
 // foreach function
 PokemonRepository.getAll().forEach(function(pokemon) {
