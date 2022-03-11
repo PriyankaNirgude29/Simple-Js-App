@@ -26,9 +26,29 @@ let PokemonList = [
 }
 ];
 
+// Public Function to create elements list and Button for each Pokemon object
+ function addListItem(pokemon){
+   let PokemonUList = document.querySelector(".Pokemon-List");
+   let ListPokemon = document.createElement("li");
+   let Button = document.createElement("button");
+   Button.innerText = pokemon.name;
+   Button.classList.add("button-class");
+   ListPokemon.appendChild(Button);
+   PokemonUList.appendChild(ListPokemon);
+ }
+
 // Public Function to Add an item to Array
 function add(pokemon){
-  PokemonList.push(pokemon);
+  if (
+      typeof pokemon === "object" &&
+      "name" in pokemon &&
+      "height" in pokemon &&
+      "type" in pokemon
+    ) {
+      PokemonList.push(pokemon);
+    } else {
+      console.log("pokemon is not correct");
+    }
 }
 
 // Public Function to get items of Array
@@ -38,13 +58,16 @@ function getAll(){
 
 return{
   add : add,
-  getAll : getAll
+  getAll : getAll,
+  addListItem : addListItem
 };
 
 })();
 
 // adding an item to PokemonRepository
 PokemonRepository.add({ name: 'Charizard', height: 8, type: ['Flying']});
+
+console.log(PokemonRepository.getAll());
 
 // foreach function
 PokemonRepository.getAll().forEach(function(pokemon) {
@@ -54,4 +77,5 @@ PokemonRepository.getAll().forEach(function(pokemon) {
   }else{
     document.write(pokemon.name + " ("+"Height :"+pokemon.height+")<br\>");
   }
+  PokemonRepository.addListItem(pokemon);
 });
