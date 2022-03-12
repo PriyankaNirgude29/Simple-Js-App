@@ -33,9 +33,22 @@ let PokemonList = [
    let Button = document.createElement("button");
    Button.innerText = pokemon.name;
    Button.classList.add("button-class");
+   ifPokemonSelected(Button, pokemon);
    ListPokemon.appendChild(Button);
    PokemonUList.appendChild(ListPokemon);
- }
+}
+
+function ifPokemonSelected(Button, pokemon){
+  Button.addEventListener('click', function() {
+  document.querySelector('.Poko-Details').classList.toggle('is-visible');
+  document.write("Name : "+pokemon.name+"</br>"+"Height : "+pokemon.height+"</br>"+"Types : "+pokemon.type);
+  showDetails(pokemon);
+});
+}
+
+function showDetails(pokemon){
+  console.log(pokemon);
+}
 
 // Public Function to Add an item to Array
 function add(pokemon){
@@ -59,7 +72,8 @@ function getAll(){
 return{
   add : add,
   getAll : getAll,
-  addListItem : addListItem
+  addListItem : addListItem,
+  //showDetails : showDetails
 };
 
 })();
@@ -71,11 +85,5 @@ console.log(PokemonRepository.getAll());
 
 // foreach function
 PokemonRepository.getAll().forEach(function(pokemon) {
-  if(pokemon.height > 5){
-    document.write(pokemon.name + " ("+"Height :"+pokemon.height+")"+" - Wow, That's Big!<br\>");
-
-  }else{
-    document.write(pokemon.name + " ("+"Height :"+pokemon.height+")<br\>");
-  }
   PokemonRepository.addListItem(pokemon);
 });
