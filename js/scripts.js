@@ -27,38 +27,38 @@ let PokemonList = [
 ];
 
 // Public Function to create elements list and Button for each Pokemon object
- function addListItem(pokemon){
+ function addListItem(Pokemon){
    let PokemonUList = document.querySelector(".Pokemon-List");
    let ListPokemon = document.createElement("li");
    let Button = document.createElement("button");
-   Button.innerText = pokemon.name;
+   Button.innerText = Pokemon.name;
    Button.classList.add("button-class");
-   ifPokemonSelected(Button, pokemon);
+   ifPokemonSelected(Button, Pokemon);
    ListPokemon.appendChild(Button);
    PokemonUList.appendChild(ListPokemon);
 }
 
-function ifPokemonSelected(Button, pokemon){
+function ifPokemonSelected(Button, Pokemon){
   Button.addEventListener('click', function() {
   document.querySelector('.Poko-Details').classList.toggle('is-visible');
-  document.write("Name : "+pokemon.name+"</br>"+"Height : "+pokemon.height+"</br>"+"Types : "+pokemon.type);
-  showDetails(pokemon);
+  document.write("Name : "+Pokemon.name+"</br>"+"Height : "+Pokemon.height+"</br>"+"Types : "+Pokemon.type);
+  showDetails(Pokemon);
 });
 }
 
-function showDetails(pokemon){
-  console.log(pokemon);
+function showDetails(Pokemon){
+  console.log(Pokemon);
 }
 
 // Public Function to Add an item to Array
-function add(pokemon){
+function add(Pokemon){
   if (
-      typeof pokemon === "object" &&
-      "name" in pokemon &&
-      "height" in pokemon &&
-      "type" in pokemon
+      typeof Pokemon === "object" &&
+      "name" in Pokemon &&
+      "height" in Pokemon &&
+      "type" in Pokemon
     ) {
-      PokemonList.push(pokemon);
+      PokemonList.push(Pokemon);
     } else {
       console.log("pokemon is not correct");
     }
@@ -84,6 +84,6 @@ PokemonRepository.add({ name: 'Charizard', height: 8, type: ['Flying']});
 console.log(PokemonRepository.getAll());
 
 // foreach function
-PokemonRepository.getAll().forEach(function(pokemon) {
-  PokemonRepository.addListItem(pokemon);
+PokemonRepository.getAll().forEach(function(Pokemon) {
+  PokemonRepository.addListItem(Pokemon);
 });
