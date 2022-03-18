@@ -1,7 +1,10 @@
 // Immidietely Invoked Function Expression (IIFE)
 let PokemonRepository = (function(){
+
+// Declarations of Global variables
 let PokemonList = [];
 let ApiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
+let ModalContainer = document.querySelector('.modal-container');
 
 // Public Function to create elements list and Button for each Pokemon object
  function addListItem(Pokemon){
@@ -17,18 +20,51 @@ let ApiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
 function ifPokemonSelected(Button, Pokemon){
   Button.addEventListener('click', function() {
-  document.querySelector('.Poko-Details').classList.toggle('is-visible');
   showDetails(Pokemon);
 });
 }
 
+// Public function to Display Pokemon details
 function showDetails(Item){
   PokemonRepository.loadDetails(Item).then(function () {
-      console.log(Item);
-      document.write("Name : "+Item.name+"</br>"+"DetailsUrl : "+Item.detailsUrl+"</br>"+"ImageUrl : "+Item.imageUrl+"</br>"+"Height : "+Item.height+"</br>"+"Types : "+Item.types);
-    });
+    console.log(Item);
+    showModal(Item.name, Item.height, Item.weight, Item.abilities, Item.types, Item.imageUrl);
+ });
 }
 
+// Function for creating Modal That will show individual pokoemon details
+function showModal(Name, Height, Weight, Abilities, Types, ImageUrl){
+    ModalContainer.classList.add('is-visible')
+    document.querySelector('.modal__title').innerText = Name;
+    let Description = 'Height: ' + Height + '<br>Weight: ' + Weight;
+    document.querySelector('.modal__text').innerHTML = Description;
+    document.querySelector('.modal__img').setAttribute('src', ImageUrl);
+    console.log(ImageUrl);
+
+    let CloseButton = document.querySelector('.modal-close');
+    CloseButton.addEventListener('click', hideModal);
+    window.addEventListener('keydown', (e) => {
+                  console.log(e.key);
+                  if (e.key === 'Escape' && ModalContainer.classList.contains('is-visible'))
+                      hideModal();
+          });
+    ModalContainer.classList.add('is-visible');
+    }
+
+    ModalContainer.addEventListener('click', (e) => {
+   // Since this is also triggered when clicking INSIDE the modal
+   // We only want to close if the user clicks directly on the overlay
+   let Target = e.target;
+   if (Target === ModalContainer) {
+     hideModal();
+   }
+ });
+
+ // Function for hiding Modal
+function hideModal() {
+            ModalContainer = document.querySelector('.modal-container');
+            ModalContainer.classList.remove('is-visible');
+        }
 // Public Function to Add an item to Array
 function add(Pokemon){
   if (
@@ -69,11 +105,13 @@ function loadList() {
       Item.imageUrl = Details.sprites.front_default;
       Item.height = Details.height;
       Item.types = Details.types;
+      Item.weight = Details.weight;
+      Item.abilities = Details.abilities;
     }).catch(function (E) {
       console.error(E);
     });
   }
-  
+
 // Public Function to get items of Array
 function getAll(){
   return PokemonList;
@@ -92,6 +130,6 @@ return{
 
 PokemonRepository.loadList().then(function () {
   PokemonRepository.getAll().forEach(function (Pokemon) {
-    PokemonRepository.addListItem(Pokemon);
+    PokemonRepository.addListItem(Pokemon);   // Calling funtion addListItem to Add pokemons details 
   });
 });
