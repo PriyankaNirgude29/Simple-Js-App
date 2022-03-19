@@ -9,7 +9,7 @@ let ModalContainer = document.querySelector('.modal-container');
 // Public Function to create elements list and Button for each Pokemon object
  function addListItem(Pokemon){
    let PokemonUList = document.querySelector(".Pokemon-List");
-   let ListPokemon = document.createElement("li");
+   let ListPokemon = document.createElement("div");
    let Button = document.createElement("button");
    Button.innerText = Pokemon.name;
    Button.classList.add("button-class");
@@ -130,6 +130,6 @@ return{
 
 PokemonRepository.loadList().then(function () {
   PokemonRepository.getAll().forEach(function (Pokemon) {
-    PokemonRepository.addListItem(Pokemon);   // Calling funtion addListItem to Add pokemons details 
+    PokemonRepository.addListItem(Pokemon);   // Calling funtion addListItem to Add pokemons details
   });
 });
