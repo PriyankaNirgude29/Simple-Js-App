@@ -57,7 +57,7 @@ body {
     border: 0;
     background: none;
     color: #777;
-    text-decoration: circle;
+    text-decoration: underline;
 }
 
 .modal h1 {
