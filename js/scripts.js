@@ -4,15 +4,15 @@ let PokemonRepository = (function(){
 // Declarations of Global variables
 let PokemonList = [];
 let ApiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
-let ModalContainer = document.querySelector('.modal-container');
 
 // Public Function to create elements list and Button for each Pokemon object
  function addListItem(Pokemon){
-   let PokemonUList = document.querySelector(".Pokemon-List");
-   let ListPokemon = document.createElement("div");
+   let PokemonUList = document.querySelector(".list-group");
+   let ListPokemon = document.createElement("li");
    let Button = document.createElement("button");
    Button.innerText = Pokemon.name;
-   Button.classList.add("button-class");
+   Button.classList.add("btn-primary");
+   ListPokemon.classList.add("li");
    ifPokemonSelected(Button, Pokemon);
    ListPokemon.appendChild(Button);
    PokemonUList.appendChild(ListPokemon);
@@ -25,46 +25,39 @@ function ifPokemonSelected(Button, Pokemon){
 }
 
 // Public function to Display Pokemon details
-function showDetails(Item){
-  PokemonRepository.loadDetails(Item).then(function () {
-    console.log(Item);
-    showModal(Item.name, Item.height, Item.weight, Item.abilities, Item.types, Item.imageUrl);
+function showDetails(Pokemon){
+  PokemonRepository.loadDetails(Pokemon).then(function () {
+    console.log(Pokemon);
+    showModal(Pokemon);
  });
 }
 
 // Function for creating Modal That will show individual pokoemon details
-function showModal(Name, Height, Weight, Abilities, Types, ImageUrl){
-    ModalContainer.classList.add('is-visible')
-    document.querySelector('.modal__title').innerText = Name;
-    let Description = 'Height: ' + Height + '<br>Weight: ' + Weight;
-    document.querySelector('.modal__text').innerHTML = Description;
-    document.querySelector('.modal__img').setAttribute('src', ImageUrl);
-    console.log(ImageUrl);
+function showModal(Pokemon){
 
-    let CloseButton = document.querySelector('.modal-close');
-    CloseButton.addEventListener('click', hideModal);
-    window.addEventListener('keydown', (e) => {
-                  console.log(e.key);
-                  if (e.key === 'Escape' && ModalContainer.classList.contains('is-visible'))
-                      hideModal();
-          });
-    ModalContainer.classList.add('is-visible');
-    }
+    let ModalBody = $(".modal-body");
+    let ModalTitle = $(".modal-title");
+  //  let ModalHeader = $(".modal-header");
 
-    ModalContainer.addEventListener('click', (e) => {
-   // Since this is also triggered when clicking INSIDE the modal
-   // We only want to close if the user clicks directly on the overlay
-   let Target = e.target;
-   if (Target === ModalContainer) {
-     hideModal();
-   }
- });
+    ModalTitle.empty();
+    ModalBody.empty();
 
- // Function for hiding Modal
-function hideModal() {
-            ModalContainer = document.querySelector('.modal-container');
-            ModalContainer.classList.remove('is-visible');
-        }
+    let NameElement = $("<h1>"+ Pokemon.name +"</h1>");
+    let ImageElement = $('<img class="pokemon-modal-img" style="width:100%">');
+    ImageElement.attr("src",Pokemon.imageUrl);
+    let HeightElement = $("<p>"+ "Height : " + Pokemon.height +"</p>");
+    let WeightElement = $("<p>"+ "Weight : " + Pokemon.weight +"</p>");
+    let TypeElement = $("<p>"+ "Types : " + Pokemon.types +"</p>");
+    let AbilitiesElement = $("<p>"+ "Abilities : " + Pokemon.abilities +"</p>");
+
+    ModalTitle.append(NameElement);
+    ModalBody.append(ImageElement);
+    ModalBody.append(HeightElement);
+    ModalBody.append(WeightElement);
+    ModalBody.append(TypeElement);
+    ModalBody.append(AbilitiesElement);
+  }
+
 // Public Function to Add an item to Array
 function add(Pokemon){
   if (
@@ -104,9 +97,15 @@ function loadList() {
       // Now we add the details to the item
       Item.imageUrl = Details.sprites.front_default;
       Item.height = Details.height;
-      Item.types = Details.types;
+      Item.types = [];
+      for (let i = 0; i < Details.types.length; i++) {
+          Item.types.push(Details.types[i].type.name);
+        }
       Item.weight = Details.weight;
-      Item.abilities = Details.abilities;
+      Item.abilities = [];
+      for (let i = 0; i < Details.abilities.length; i++) {
+          Item.abilities.push(Details.abilities[i].ability.name);
+        }
     }).catch(function (E) {
       console.error(E);
     });
@@ -123,7 +122,9 @@ return{
   addListItem : addListItem,
   loadList: loadList,
   loadDetails: loadDetails,
-  showDetails: showDetails
+  showDetails: showDetails,
+  showModal: showModal,
+  ifPokemonSelected: ifPokemonSelected
   };
 
 })();
