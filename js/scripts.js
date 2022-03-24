@@ -37,7 +37,6 @@ function showModal(Pokemon){
 
     let ModalBody = $(".modal-body");
     let ModalTitle = $(".modal-title");
-  //  let ModalHeader = $(".modal-header");
 
     ModalTitle.empty();
     ModalBody.empty();
@@ -94,6 +93,7 @@ function loadList() {
     return fetch(Url).then(function (response) {
       return response.json();
     }).then(function (Details) {
+      
       // Now we add the details to the item
       Item.imageUrl = Details.sprites.front_default;
       Item.height = Details.height;
@@ -111,6 +111,23 @@ function loadList() {
     });
   }
 
+  function findPokemon(SearchName) {
+    // Clear all the buttons on the page when user types in search box
+    $(".list-group").empty();
+
+    // Add pokemon buttons for which the name includes the search string
+    PokemonList.forEach((Pokemon) => {
+      if (properCasing(Pokemon.name).indexOf(properCasing(SearchName)) > -1) {
+        addListItem(Pokemon);
+      }
+    });
+  }
+  //makes each String start with uppercase letter
+  function properCasing(Item) {
+    return Item.charAt(0).toUpperCase() + Item.slice(1);
+  }
+
+
 // Public Function to get items of Array
 function getAll(){
   return PokemonList;
@@ -124,7 +141,8 @@ return{
   loadDetails: loadDetails,
   showDetails: showDetails,
   showModal: showModal,
-  ifPokemonSelected: ifPokemonSelected
+  ifPokemonSelected: ifPokemonSelected,
+  findPokemon: findPokemon
   };
 
 })();
