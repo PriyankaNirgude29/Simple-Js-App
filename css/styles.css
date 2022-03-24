@@ -29,7 +29,8 @@ nav{
 }
 
 button.btn-primary{
-  text-transform:capitalize;
+  background-color: rgb(212, 16, 16);
+  text-transform: capitalize;
   margin:10px;
   min-width:200px
 }
