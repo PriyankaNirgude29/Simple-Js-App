@@ -1,0 +1,1 @@
+ :root{--primary-color:#ea3333 }header{font-size:2em;padding:10px;text-align:center }body{background-color:white;color:var(--primary-color);font-size:2rem }h1{text-align:center;padding:10px }p{text-align:center }nav{background-color:#add8e6 }.btn-primary{background-color: rgb(212, 16, 16);text-transform: capitalize;margin:10px;min-width:200px }
